@@ -116,5 +116,6 @@ class SqliteCache(BaseCache[ValueT]):
     def __del__(self) -> None:
         try:
             self._conn.close()
-        except Exception:
+        except sqlite3.Error:
+            # Ignore sqlite3 errors during cleanup (e.g., connection already closed)
             pass
